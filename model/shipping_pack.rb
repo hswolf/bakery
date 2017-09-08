@@ -8,14 +8,17 @@ class ShippingPack
 
   def self.create_shipping_packs(order_quantity, packs)
     sorted_packs = packs.sort_by { |pack| pack.number_of_unit }
-    x = min_number_of_pack(sorted_packs.size - 1, order_quantity, sorted_packs)
+    @@saved_array = {}
+    x = best_shipping_packs(sorted_packs.size - 1, order_quantity, sorted_packs)
     binding.pry
   end
 
   private
 
-  def self.min_number_of_pack(last, quantity, packs)
-    return 0 if quantity == 0
+  def self.best_shipping_packs(last, quantity, packs)
+    if quantity == 0
+      return 0
+    end
 
     if last == 0
       if quantity % packs[last].number_of_unit == 0
@@ -25,33 +28,33 @@ class ShippingPack
       end
     end
 
-    excluded_last = [min_number_of_pack(last - 1, quantity, packs)].flatten
+    saved_key = "#{last}|#{quantity}".to_sym
 
-    quantity_after = quantity - (quantity / packs[last].number_of_unit) * packs[last].number_of_unit
-    pack_quantity_after = new(quantity / packs[last].number_of_unit, packs[last])
-    included_last = [
-      pack_quantity_after,
-      min_number_of_pack(last - 1, quantity_after, packs)
-    ].flatten
+    if @@saved_array[saved_key].nil?
+      quotient = quantity / packs[last].number_of_unit
 
-    select_min_from_shipping_pack_arrays(excluded_last, included_last)
+      possible_shipping_pack_arrays = (0..quotient).map do |i|
+        new_quantity = quantity - i * packs[last].number_of_unit
+        shipping_pack = new(i, packs[last])
+
+        [shipping_pack, best_shipping_packs(last - 1, new_quantity, packs)].flatten - [0]
+      end
+
+      @@saved_array[saved_key] = select_min_in_shipping_pack_arrays(possible_shipping_pack_arrays)
+    end
+
+    return @@saved_array[saved_key]
   end
 
-  def self.select_min_from_shipping_pack_arrays(first, second)
-    first_total_pack = total_pack_of_shipping_packs(first)
-    second_total_pack = total_pack_of_shipping_packs(second)
+  def self.select_min_in_shipping_pack_arrays(arrays)
+    return [] if arrays.empty?
 
-    if first_total_pack && second_total_pack
-      return first_total_pack < second_total_pack ? first : second
-    end
-    return first if first_total_pack
-    return second if second_total_pack
-
-    [false]
+    arrays.select { |arr|  arr && !arr.include?(false) && !arr.include?(nil) }
+      .sort { |first, second| total_pack_of_shipping_packs(first) <=> total_pack_of_shipping_packs(second) }
+      .first
   end
 
   def self.total_pack_of_shipping_packs(shipping_packs)
-    return false if shipping_packs.include?(false)
     (shipping_packs - [0]).sum { |shipping_pack| shipping_pack.quantity }
   end
 end
