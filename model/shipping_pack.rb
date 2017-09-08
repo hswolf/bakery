@@ -12,42 +12,46 @@ class ShippingPack
     binding.pry
   end
 
+  private
+
   def self.min_number_of_pack(last, quantity, packs)
     return 0 if quantity == 0
 
     if last == 0
       if quantity % packs[last].number_of_unit == 0
-        return quantity / packs[last].number_of_unit
+        return new(quantity / packs[last].number_of_unit, packs[last])
       else
         return false
       end
     end
 
-    excluded_last = min_number_of_pack(last - 1, quantity, packs)
+    excluded_last = [min_number_of_pack(last - 1, quantity, packs)].flatten
 
     quantity_after = quantity - (quantity / packs[last].number_of_unit) * packs[last].number_of_unit
-    included_last = begin
-        (quantity / packs[last].number_of_unit) + min_number_of_pack(last - 1, quantity_after, packs)
-      rescue TypeError
-        false
-      end
+    pack_quantity_after = new(quantity / packs[last].number_of_unit, packs[last])
+    included_last = [
+      pack_quantity_after,
+      min_number_of_pack(last - 1, quantity_after, packs)
+    ].flatten
 
-    [excluded_last, included_last].select{|num| num}.min
-  end
-end
-
-class ShippingPacks
-  attr_accessor :total_unit_number, :shipping_packs, :total_price
-
-  def add_pack(shipping_pack)
-    @shipping_packs << shipping_pack
+    select_min_from_shipping_pack_arrays(excluded_last, included_last)
   end
 
-  def total_unit_number
-    @shipping_packs.sum { |shipping_pack| shipping_pack.quantity * shipping_pack.pack.number_of_unit }
+  def self.select_min_from_shipping_pack_arrays(first, second)
+    first_total_pack = total_pack_of_shipping_packs(first)
+    second_total_pack = total_pack_of_shipping_packs(second)
+
+    if first_total_pack && second_total_pack
+      return first_total_pack < second_total_pack ? first : second
+    end
+    return first if first_total_pack
+    return second if second_total_pack
+
+    [false]
   end
 
-  def total_price
-    @shipping_packs.sum { |shipping_pack| shipping_pack.quantity * shipping_pack.pack.price}
+  def self.total_pack_of_shipping_packs(shipping_packs)
+    return false if shipping_packs.include?(false)
+    (shipping_packs - [0]).sum { |shipping_pack| shipping_pack.quantity }
   end
 end
