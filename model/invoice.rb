@@ -1,14 +1,16 @@
 require_relative 'product'
 require_relative 'shipping_pack'
 require 'bigdecimal'
+require 'benchmark'
 
 class Invoice
   attr_accessor :order, :total_price, :shipping_packs
 
   def initialize(order, product)
     @order = order
-    @shipping_packs = ShippingPack.create_shipping_packs(order.quantity, product.packs)
-    @total_price = calculate_total_price(@shipping_packs)
+    puts Benchmark.measure{ShippingPack.create_shipping_packs(order.quantity, product.packs)}
+    # @shipping_packs = ShippingPack.create_shipping_packs(order.quantity, product.packs)
+    # @total_price = calculate_total_price(@shipping_packs)
   end
 
   def self.create_invoices(orders, products)

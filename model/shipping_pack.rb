@@ -9,14 +9,14 @@ class ShippingPack
   def self.create_shipping_packs(order_quantity, packs)
     sorted_packs = packs.sort_by { |pack| pack.number_of_unit }
     @@saved_array = {}
-    x = best_shipping_packs(sorted_packs.size - 1, order_quantity, sorted_packs)
-    binding.pry
+    best_shipping_packs(sorted_packs.size - 1, order_quantity, sorted_packs)
+    # binding.pry
   end
 
   private
 
   def self.best_shipping_packs(last, quantity, packs)
-    if quantity == 0
+    if quantity <= 0
       return 0
     end
 
@@ -55,6 +55,6 @@ class ShippingPack
   end
 
   def self.total_pack_of_shipping_packs(shipping_packs)
-    (shipping_packs - [0]).sum { |shipping_pack| shipping_pack.quantity }
+    shipping_packs.sum { |shipping_pack| shipping_pack.quantity }
   end
 end
