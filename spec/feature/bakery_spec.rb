@@ -38,7 +38,6 @@ RSpec.describe 'Application receive Orders' do
     )
   ]
 
-
   context 'with appropriate products and quantities' do
     it 'should return best Invoices (1)' do
       orders = [Order.new(65, 'AP')]

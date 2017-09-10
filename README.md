@@ -48,19 +48,48 @@ ruby main.rb
 ```
 Output is in **output** file
 
-## How to change input/output
-### If you want to update product, order
+#### If you want to update product, order
 Please change these files, **but keeping their format otherwise app cannot run well.**
 ```
 product.yml
 input.yml
 ```
-### If you want to use your own config files, please see
+#### If you want to use your own config files, please see
 ```
 ruby main.rb -h
 ```
 
-## How to test
+## Testing
 ```
 rspec
+```
+```
+..............................
+
+Finished in 0.01062 seconds (files took 0.09845 seconds to load)
+30 examples, 0 failures
+```
+
+## Benchmark
+```
+ruby benchmark.rb
+```
+```
+       user     system      total        real
+Benchmark case 1
+   0.000000   0.000000   0.000000 (  0.000170)
+Benchmark case 2
+   0.010000   0.000000   0.010000 (  0.008545)
+Benchmark case 3
+   0.820000   0.000000   0.820000 (  0.825801)
+Benchmark case 4
+  95.540000   0.060000  95.600000 ( 95.663081)
+Benchmark case 5
+   8.440000   0.000000   8.440000 (  8.494925)
+Benchmark case 6
+  23.520000   0.010000  23.530000 ( 23.538386)
+Benchmark case 7
+  34.080000   0.010000  34.090000 ( 34.110215)
+Benchmark case 8
+  44.380000   0.000000  44.380000 ( 44.413392)
 ```

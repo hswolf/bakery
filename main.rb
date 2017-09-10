@@ -1,7 +1,6 @@
 require 'optparse'
 require_relative 'model'
 require_relative 'output'
-require 'pry'
 
 PRODUCT_FILE = 'product.yml'
 INPUT_FILE = 'input.yml'
@@ -29,15 +28,15 @@ OptionParser.new do |parser|
     puts parser
   end
 
-  parser.on("-p", "--product PRODUCT", "Path to product data.") do |v|
+  parser.on("-p", "--product PRODUCT", "Absolute path to product data.") do |v|
     options[:product] = v
   end
 
-  parser.on("-i", "--input INPUT", "Path to order data.") do |v|
+  parser.on("-i", "--input INPUT", "Absolute path to order data.") do |v|
     options[:input] = v
   end
 
-  parser.on("-o", "--output OUTPUT", "Path to output file.") do |v|
+  parser.on("-o", "--output OUTPUT", "Absolute path to output file.") do |v|
     options[:output] = v
   end
 end.parse!
