@@ -85,7 +85,7 @@ class Invoice
     quotient, remain = quotient_and_remain(quantity, packs[last].number_of_unit)
 
     return false if last == 0 && remain != 0
-    return ShippingPack.new(packs[last], quantity / packs[last].number_of_unit) if last == 0
+    return ShippingPack.new(packs[last], quotient) if last == 0
 
     saved_key = "#{last}|#{quantity}".to_sym
 
