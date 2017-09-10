@@ -1,42 +1,42 @@
-require_relative '../../model/order'
+require_relative '../../model/pack'
 
-RSpec.describe Order do
+RSpec.describe Pack do
   context '#initialize' do
-    subject { Order.new(quantity, code) }
-    let(:quantity) { 1 }
-    let(:code) { 'VS' }
+    subject { Pack.new(number_of_unit, price) }
+    let(:number_of_unit) { 10 }
+    let(:price) { 20.5 }
 
     context 'normal case' do
-      it { is_expected.to be_instance_of(Order) }
+      it { is_expected.to be_instance_of(Pack) }
     end
 
     context 'abnormal case' do
-      context 'with quantity is not an integer' do
-        let(:quantity) { 1.2 }
+      context 'with number_of_unit is not an integer' do
+        let(:number_of_unit) { 1.2 }
 
         it 'should raise error' do
           expect { subject }.to raise_error(ArgumentError)
         end
       end
 
-      context 'with quantity is zero' do
-        let(:quantity) { 0 }
+      context 'with number_of_unit is less than 0' do
+        let(:number_of_unit) { -1 }
 
         it 'should raise error' do
           expect { subject }.to raise_error(ArgumentError)
         end
       end
 
-      context 'with quantity is less than zero' do
-        let(:quantity) { -1 }
+      context 'with price is not present' do
+        let(:price) {}
 
         it 'should raise error' do
           expect { subject }.to raise_error(ArgumentError)
         end
       end
 
-      context 'with code is blank' do
-        let(:code) {}
+      context 'with price is less than 0' do
+        let(:price) { -1 }
 
         it 'should raise error' do
           expect { subject }.to raise_error(ArgumentError)

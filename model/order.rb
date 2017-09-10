@@ -4,10 +4,10 @@ class Order
   attr_accessor :quantity, :code
 
   def initialize(quantity = 0, code = nil)
+    validate!(quantity, code)
+
     @quantity = quantity
     @code = code
-
-    validate!
   end
 
   def self.load_orders(order_file)
@@ -17,14 +17,14 @@ class Order
       new(order[:quantity], order[:code])
     end
   rescue Errno::ENOENT
-    puts "Sorry. We cannot find your input file."
+    puts "Sorry. We cannot find your 'input' file."
   end
 
   private
 
-  def validate!
-    raise ArgumentError.new("Quantity must be an integer") unless @quantity.is_a?(Integer)
-    raise ArgumentError.new("Quantity must greater than 0") if @quantity <= 0
-    raise ArgumentError.new("Code must be present") if @code.nil?
+  def validate!(quantity, code)
+    raise ArgumentError.new("Quantity must be an integer") unless quantity.is_a?(Integer)
+    raise ArgumentError.new("Quantity must greater than 0") if quantity <= 0
+    raise ArgumentError.new("Code must be present") if code.nil?
   end
 end
