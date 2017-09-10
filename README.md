@@ -48,13 +48,13 @@ ruby main.rb
 ```
 Output is in **output** file
 
-#### If you want to update product, order
-Please change these files, **but keeping their format otherwise app cannot run well.**
+### If you want to update product data, order data
+Please change these files, **but keeping their format otherwise app cannot run appropriately.**
 ```
 product.yml
 input.yml
 ```
-#### If you want to use your own config files, please see
+### If you want to use your own config files, please see
 ```
 ruby main.rb -h
 ```
