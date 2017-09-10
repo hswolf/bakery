@@ -2,11 +2,9 @@
 - :name: Vegemite Scroll
   :code: VS5
   :packs:
-    - :number_of_unit: 2
+    - :number_of_unit: 3
       :price: 6.99
-    - :number_of_unit: 7
-      :price: 8.99
-    - :number_of_unit: 8
+    - :number_of_unit: 5
       :price: 8.99
 - :name: Blueberry Muffin
   :code: MB11

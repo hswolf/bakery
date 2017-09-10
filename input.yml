@@ -1,3 +1,7 @@
 ---
-- :quantity: 65000
+- :quantity: 10
   :code: 'VS5'
+- :quantity: 14
+  :code: 'MB11'
+- :quantity: 13
+  :code: 'CF'

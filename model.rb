@@ -1,5 +1,2 @@
 require_relative 'model/invoice'
 require_relative 'model/order'
-require_relative 'model/pack'
-require_relative 'model/product'
-require_relative 'model/shipping_pack'
