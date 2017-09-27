@@ -26,6 +26,7 @@ OptionParser.new do |parser|
 
   parser.on("-h", "--help", "Show this help message") do ||
     puts parser
+    exit
   end
 
   parser.on("-p", "--product PRODUCT", "Absolute path to product data.") do |v|
